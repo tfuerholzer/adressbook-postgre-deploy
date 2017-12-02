@@ -22,10 +22,9 @@ class Person {
         this.lastName = lastName;
         this.email = email;
     }
-    static getAllPersons(client) {
+    static getAllPersons(client, callback) {
         let persons = new Array();
         let ret = true;
-        let locked = true;
         let x = client.query("SELECT * FROM Persons", (error, result) => {
             console.log(result.rowCount);
             if (error) {
@@ -35,37 +34,28 @@ class Person {
             else {
                 result.rows.forEach((row) => {
                     persons.push(new Person(row.personid, row.firstname, row.lastname, row.email));
-                    console.log("i have pushed stuff into the array");
                 });
             }
-            locked = false;
+            callback([ret, persons]);
         });
-        function lockcheck() {
-            if (locked) {
-                setTimeout(lockcheck, 50);
-            }
-        }
-        lockcheck();
-        console.log("im return this stuff now");
-        return [ret, persons];
     }
-    static deletePersonById(client, id) {
+    static deletePersonById(client, id, callback) {
         let ret = true;
         client.query(`DELETE FROM persons where personid=${id};`, (result, error) => {
             if (error) {
                 ret = false;
             }
+            callback(ret);
         });
-        return ret;
     }
-    insertPerson(client) {
+    insertPerson(client, callback) {
         let ret = true;
         client.query(`INSERT into persons (personid,firstname,lastname,email)values(${this.id},'${this.firstName}','${this.lastName}','${this.email}');`, (result, error) => {
             if (error) {
                 ret = false;
             }
+            callback(ret);
         });
-        return ret;
     }
 }
 exports.Person = Person;
