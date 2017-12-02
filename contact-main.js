@@ -25,6 +25,7 @@ class Person {
     static getAllPersons(client) {
         let persons = new Array();
         let ret = true;
+        let locked = true;
         let x = client.query("SELECT * FROM Persons", (error, result) => {
             console.log(result.rowCount);
             if (error) {
@@ -37,13 +38,15 @@ class Person {
                     console.log("i have pushed stuff into the array");
                 });
             }
+            locked = false;
         });
+        while (locked) { }
         console.log("im return this stuff now");
         return [ret, persons];
     }
     static deletePersonById(client, id) {
         let ret = true;
-        let x = client.query(`DELETE FROM persons where personid=${id};`, (result, error) => {
+        client.query(`DELETE FROM persons where personid=${id};`, (result, error) => {
             if (error) {
                 ret = false;
             }
@@ -52,7 +55,7 @@ class Person {
     }
     insertPerson(client) {
         let ret = true;
-        let x = client.query(`INSERT into persons (personid,firstname,lastname,email)values(${this.id},'${this.firstName}','${this.lastName}','${this.email}');`, (result, error) => {
+        client.query(`INSERT into persons (personid,firstname,lastname,email)values(${this.id},'${this.firstName}','${this.lastName}','${this.email}');`, (result, error) => {
             if (error) {
                 ret = false;
             }
