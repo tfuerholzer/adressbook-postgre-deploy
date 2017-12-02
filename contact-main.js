@@ -26,6 +26,7 @@ class Person {
         let persons = new Array();
         let ret = true;
         client.query("SELECT * FROM Persons", (error, result) => {
+            console.log(result.rowCount);
             if (error) {
                 console.log(error.stack);
                 ret = false;
