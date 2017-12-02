@@ -40,7 +40,12 @@ class Person {
             }
             locked = false;
         });
-        while (locked) { }
+        function lockcheck() {
+            if (locked) {
+                setTimeout(lockcheck, 50);
+            }
+        }
+        lockcheck();
         console.log("im return this stuff now");
         return [ret, persons];
     }
