@@ -25,7 +25,7 @@ class Person {
     static getAllPersons(client) {
         let persons = new Array();
         let ret = true;
-        client.query("SELECT * FROM Persons", (error, result) => {
+        let x = client.query("SELECT * FROM Persons", (error, result) => {
             console.log(result.rowCount);
             if (error) {
                 console.log(error.stack);
@@ -43,7 +43,7 @@ class Person {
     }
     static deletePersonById(client, id) {
         let ret = true;
-        client.query(`DELETE FROM persons where personid=${id};`, (result, error) => {
+        let x = client.query(`DELETE FROM persons where personid=${id};`, (result, error) => {
             if (error) {
                 ret = false;
             }
@@ -52,7 +52,7 @@ class Person {
     }
     insertPerson(client) {
         let ret = true;
-        client.query(`INSERT into persons (personid,firstname,lastname,email)values(${this.id},'${this.firstName}','${this.lastName}','${this.email}');`, (result, error) => {
+        let x = client.query(`INSERT into persons (personid,firstname,lastname,email)values(${this.id},'${this.firstName}','${this.lastName}','${this.email}');`, (result, error) => {
             if (error) {
                 ret = false;
             }
