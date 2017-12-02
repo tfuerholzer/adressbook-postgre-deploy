@@ -34,9 +34,11 @@ class Person {
             else {
                 result.rows.forEach((row) => {
                     persons.push(new Person(row.personid, row.firstname, row.lastname, row.email));
+                    console.log("i have pushed stuff into the array");
                 });
             }
         });
+        console.log("im return this stuff now");
         return [ret, persons];
     }
     static deletePersonById(client, id) {
